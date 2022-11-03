@@ -1,39 +1,101 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-public class Program
+namespace KonwerterKuchnia
 {
-	public static void Main()
+	public class Program
 	{
-		// waga
-		double miligram = 0.1;
-		int gram = 1;
-		int dekagram = 10;
-		int kilogram = 1000;
-		double uncjaPlyn = 28.35;
-		double szczypta = 0.00036;
-		double funt = 453.5;
-		// pojemnosc
-		double mililitr = 0.001;
-		double litr = 1;
-		double lyzeczka = 0.005;
-		double lyzka = 0.015;
-		double uncjaPojemnosc = 0.028412;
-		double szklanka = 0.25;
-		double kieliszek = 0.050;
-		//Uzytkowe
-		string wyborTrybu;
-		Console.WriteLine("Kuchenny konwerter miar, wpisz 1 dla wag lub 2 dla pojemnosci");
-		wyborTrybu = Console.ReadLine();
-		if (wyborTrybu == "1")
+
+
+
+
+		public static void Main(string[] args)
 		{
-			Console.WriteLine("Wybrano wage");
-			Console.WriteLine("wpisz odpowiednia cyfre dla zrodla");
-			Console.WriteLine("1 - miligram");		
-			Console.WriteLine("2 - gram" );
-			Console.WriteLine("3 - kilogram" );
-			Console.WriteLine("4 - uncja" );
-			Console.WriteLine("5 - szczypta" );
-			Console.WriteLine("6 - funt" );
+
+
+			string wyborTrybu;
+			double iloscZrodla;
+			int przelicznik;
+			int typZrodla;
+			int typWyniku;
+
+
+			Console.WriteLine("Kuchenny konwerter miar, wpisz 0 dla wag lub 1 dla pojemnosci");
+			wyborTrybu = Console.ReadLine();
+			if (wyborTrybu == "0")
+			{
+				Console.WriteLine("Wybrano wage");
+				Console.WriteLine("wpisz odpowiednia cyfre dla zrodla");
+				Console.WriteLine("0 - miligram");
+				Console.WriteLine("1 - gram");
+				Console.WriteLine("2 - dekagram");
+				Console.WriteLine("3 - kilogram");
+				Console.WriteLine("4 - uncja");
+				Console.WriteLine("5 - szczypta");
+				Console.WriteLine("6 - funt");
+                przelicznik = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine();
+				Console.WriteLine("Podaj wage zrodla");
+				iloscZrodla = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine();
+				Console.WriteLine("Podaj docelową jednostkę: ");
+				Console.WriteLine("0 - miligram");
+				Console.WriteLine("1 - gram");
+				Console.WriteLine("2 - dekagram");
+				Console.WriteLine("3 - kilogram");
+				Console.WriteLine("4 - uncja");
+				Console.WriteLine("5 - szczypta");
+				Console.WriteLine("6 - funt");
+				typWyniku = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine("Wynik:");
+				var InstancjaPrzeliczania = new Program();
+				Console.WriteLine(InstancjaPrzeliczania.Przeliczanie(przelicznik, iloscZrodla, typWyniku));
+				Console.WriteLine();
+				Console.WriteLine("kliknij enter zeby zamknac");
+				Console.ReadLine();
+
+			}
+
+			else if (wyborTrybu == "1")
+			{
+
+			}
+		}
+
+
+        public double Przeliczanie(int typZrodla, double iloscZrodla , int typWyniku)
+		{
+
+			
+
+			// waga
+
+			double[] tablicaWagi = new double[] { 0.1, 1, 10, 1000, 28.35, 0.00036, 453.5 };
+
+			// pojemnosci
+
+			double[] tablicaPojemnosci = new double[] { 0.001, 1, 0.005, 0.015, 0.028412, 0.25, 0.05 };
+
+			double przelicznikZeZrodla = tablicaWagi[typZrodla];
+			double przelicznikWynikowy = tablicaWagi[typWyniku];
+			double iloscWyniku;
+			double posredniWynikWGramach;
+
+			posredniWynikWGramach = iloscZrodla * przelicznikZeZrodla;
+			iloscWyniku = posredniWynikWGramach / przelicznikWynikowy;
+
+
+			return iloscWyniku;
 		}
 	}
+
+    
 }
+
+
