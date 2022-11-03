@@ -19,79 +19,137 @@ namespace KonwerterKuchnia
 		{
 
 
-			string wyborTrybu;
+			int wyborTrybu;
 			double iloscZrodla;
 			int przelicznik;
-			int typZrodla;
 			int typWyniku;
 
-
 			Console.WriteLine("Kuchenny konwerter miar, wpisz 0 dla wag lub 1 dla pojemnosci");
-			wyborTrybu = Console.ReadLine();
-			if (wyborTrybu == "0")
+			wyborTrybu = Convert.ToInt32(Console.ReadLine());
+			if (wyborTrybu == 0)
 			{
 				Console.WriteLine("Wybrano wage");
 				Console.WriteLine("wpisz odpowiednia cyfre dla zrodla");
-				Console.WriteLine("0 - miligram");
-				Console.WriteLine("1 - gram");
-				Console.WriteLine("2 - dekagram");
-				Console.WriteLine("3 - kilogram");
-				Console.WriteLine("4 - uncja");
-				Console.WriteLine("5 - szczypta");
-				Console.WriteLine("6 - funt");
+
+				var WyswietlListeWag = new Program();
+				WyswietlListeWag.ListaWag();
+				
+
                 przelicznik = Convert.ToInt32(Console.ReadLine());
 				Console.WriteLine();
 				Console.WriteLine("Podaj wage zrodla");
 				iloscZrodla = Convert.ToInt32(Console.ReadLine());
+
 				Console.WriteLine();
 				Console.WriteLine("Podaj docelową jednostkę: ");
-				Console.WriteLine("0 - miligram");
-				Console.WriteLine("1 - gram");
-				Console.WriteLine("2 - dekagram");
-				Console.WriteLine("3 - kilogram");
-				Console.WriteLine("4 - uncja");
-				Console.WriteLine("5 - szczypta");
-				Console.WriteLine("6 - funt");
+
+				WyswietlListeWag.ListaWag();
+
 				typWyniku = Convert.ToInt32(Console.ReadLine());
 				Console.WriteLine("Wynik:");
 				var InstancjaPrzeliczania = new Program();
-				Console.WriteLine(InstancjaPrzeliczania.Przeliczanie(przelicznik, iloscZrodla, typWyniku));
+				Console.WriteLine(InstancjaPrzeliczania.Przeliczanie(wyborTrybu, przelicznik, iloscZrodla, typWyniku));
 				Console.WriteLine();
 				Console.WriteLine("kliknij enter zeby zamknac");
 				Console.ReadLine();
 
 			}
 
-			else if (wyborTrybu == "1")
+			else if (wyborTrybu == 1)
 			{
+				Console.WriteLine("Wybrano pojemności");
+				Console.WriteLine("wpisz odpowiednia cyfre dla zrodla");
 
+				var WyswietlListePojemnosci = new Program();
+				WyswietlListePojemnosci.ListaPojemnosci();
+
+				przelicznik = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine();
+				Console.WriteLine("Podaj ilosc zrodla");
+				iloscZrodla = Convert.ToInt32(Console.ReadLine());
+
+				Console.WriteLine();
+				Console.WriteLine("Podaj docelową jednostkę: ");
+
+				Console.WriteLine();
+				Console.WriteLine("Podaj docelową jednostkę: ");
+
+				WyswietlListePojemnosci.ListaPojemnosci();
+				typWyniku = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine("Wynik:");
+				var InstancjaPrzeliczania = new Program();
+				Console.WriteLine(InstancjaPrzeliczania.Przeliczanie(wyborTrybu, przelicznik, iloscZrodla, typWyniku));
+				Console.WriteLine();
+				Console.WriteLine("kliknij enter zeby zamknac");
+				Console.ReadLine();
 			}
 		}
 
+		public void ListaWag()
+        {
+			int i = 0;
+			string[] tablicaJednostkiWagi = new string[] { "miligram", "gram", "dekagram", "kilogram", "uncja", "szczypta", "funt" };
+			foreach (string element in tablicaJednostkiWagi)
+			{
+				Console.WriteLine(i + " --- " + tablicaJednostkiWagi[i]);
+				i++;
+			}
+			i = 0;
+		}
+		public void ListaPojemnosci()
+		{
+			int i = 0;
+			string[] tablicaJednostkiPojemnosci = new string[] { "mililitr", "litr", "łyżeczka", "łyżka", "uncja", "szklanka", "kieliszek" };
+			foreach (string element in tablicaJednostkiPojemnosci)
+			{
+				Console.WriteLine(i + " --- " + tablicaJednostkiPojemnosci[i]);
+				i++;
+			}
+			i = 0;
+		}
 
-        public double Przeliczanie(int typZrodla, double iloscZrodla , int typWyniku)
+
+		public double Przeliczanie(int wyborTrybu, int typZrodla, double iloscZrodla , int typWyniku)
 		{
 
-			
-
-			// waga
-
-			double[] tablicaWagi = new double[] { 0.1, 1, 10, 1000, 28.35, 0.00036, 453.5 };
-
-			// pojemnosci
-
-			double[] tablicaPojemnosci = new double[] { 0.001, 1, 0.005, 0.015, 0.028412, 0.25, 0.05 };
-
-			double przelicznikZeZrodla = tablicaWagi[typZrodla];
-			double przelicznikWynikowy = tablicaWagi[typWyniku];
-			double iloscWyniku;
-			double posredniWynikWGramach;
-
-			posredniWynikWGramach = iloscZrodla * przelicznikZeZrodla;
-			iloscWyniku = posredniWynikWGramach / przelicznikWynikowy;
+			double[] tablicaPrzelicznikow1 = new double[] { 0.1, 1, 10, 1000, 28.35, 0.00036, 453.5 };
+			double[] tablicaPrzelicznikow2 = new double[] { 0.001, 1, 0.005, 0.015, 0.028412, 0.25, 0.05 };
 
 
-			return iloscWyniku;
+			if (wyborTrybu == 0)
+			{
+				// waga
+				double przelicznikZeZrodla = tablicaPrzelicznikow1[typZrodla];
+				double przelicznikWynikowy = tablicaPrzelicznikow1[typWyniku];
+				double iloscWyniku;
+				double posredniWynikWGramach;
+
+				posredniWynikWGramach = iloscZrodla * przelicznikZeZrodla;
+				iloscWyniku = posredniWynikWGramach / przelicznikWynikowy;
+
+				return iloscWyniku;
+			}
+			else if (wyborTrybu == 1)
+			{
+				// pojemnosci
+				double przelicznikZeZrodla = tablicaPrzelicznikow2[typZrodla];
+				double przelicznikWynikowy = tablicaPrzelicznikow2[typWyniku];
+				double iloscWyniku;
+				double posredniWynikWGramach;
+
+				posredniWynikWGramach = iloscZrodla * przelicznikZeZrodla;
+				iloscWyniku = posredniWynikWGramach / przelicznikWynikowy;
+
+				return iloscWyniku;
+			}
+			else
+            {
+				Console.WriteLine("błąd");
+				return 0;
+            }
+
+
+
 		}
 	}
 
